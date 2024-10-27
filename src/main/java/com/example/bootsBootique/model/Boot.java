@@ -17,6 +17,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.GeneratedValue;
 
 import com.example.bootsBootique.enums.BootType;
+import jakarta.persistence.GenerationType;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
@@ -31,7 +32,7 @@ import lombok.ToString;
 public class Boot {
 
   @Id
-  @GeneratedValue
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Integer id;
 
   @Column(name = "TYPE")

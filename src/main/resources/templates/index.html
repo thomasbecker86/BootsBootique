@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html xmlns:th="http://www.thymeleaf.org">
   <head>
     <title>Boots Application</title>
     
@@ -33,64 +33,86 @@
               <th>ACTIONS</th>
             </tr>
           </thead>
-          <tbody id="bootsTableBody">
+          <tbody th:unless="${#lists.isEmpty(boots)}" id="bootsTableBody">
+              <tr th:each="boot : ${boots}">
+                <td th:text="${boot.id}"/>
+                <td th:text="${boot.type}"/>
+                <td th:text="${boot.material}"/>
+                <td th:text="${boot.size}"/>
+                <td th:text="${boot.quantity}"/>
+              </tr>
           </tbody>
         </table>
       </div>
       <hr />
+      <!--
+      <td>${boot.id}</td>
+      <td>${boot.type}</td>
+      <td>${boot.material}</td>
+      <td>${boot.size}</td>
+      <td>${boot.quantity}</td>
+      <td>
+        <span class="delete-boot-icon" onclick="deleteBootById(${boot.id}, renderBootsListCallback(document.getElementById('bootsTableBody')));">❌</span>
+        <span class="increment-boot-icon" onclick="changeBootQuantity(${boot.id}, 'increment', renderBootsListCallback(document.getElementById('bootsTableBody')));">⬆️</span>
+        <span class="decrement-boot-icon" onclick="changeBootQuantity(${boot.id}, 'decrement', renderBootsListCallback(document.getElementById('bootsTableBody')));">⬇️</span>
+      </td>
+      -->
       <div class="boots-form-container">
         <h2>Add New Boot</h2>
-        <form id="addNewBoot" class="boots-form" action="#">
+        <form id="addNewBoot" class="boots-form" action="#" th:action="@{/boots/add}" th:object="${newBoot}" method="post">
           <div class="boot-form-entry">
             <label for="material">Material</label>
-            <input type="text" id="material" name="material">
+            <input type="text" id="material" name="material" th:field="*{material}">
           </div>
 
           <div class="boot-form-entry">
             <label for="type">Type</label>
-            <select class="boot-types-dropdown" name="type" id="bootTypesDropdown" form="addNewBoot"></select>
-          </div>
-
-          <div class="boot-form-entry">
-            <label for="size">Size</label>
-            <input type="number" id="size" name="size" min="0" max="26" step="0.5">
-          </div>
-
-          <div class="boot-form-entry">
-            <label for="quantity">Quantity</label>
-            <input type="number" id="quantity" name="quantity" min="0" step="1">
-          </div>
-
-          <button type="button" id="addNewBootSubmit" onclick="addNewBoot(renderBootsListCallback(document.getElementById('bootsTableBody')));">Add</button>
-        </form>
-      </div>
-      <hr/>
-      <div class="boots-form-container">
-        <h2>Search Boots</h2>
-        <form id="searchBoots" class="boots-form">
-          <div class="boot-form-entry">
-            <label for="material">Material</label>
-            <input type="text" id="material" name="material">
-          </div>
-
-          <div class="boot-form-entry">
-            <label for="type">Type</label>
-            <select class="boot-types-dropdown" name="type" id="bootTypesDropdown" form="searchBoots">
-              <option value="">ANY</option>
+            <select th:field="*{type}" class="boot-types-dropdown" name="type" id="bootTypesDropdown" form="addNewBoot">
+                <option th:each="p : ${listType}" th:value="${p}" th:text="${p}" />
             </select>
           </div>
 
           <div class="boot-form-entry">
             <label for="size">Size</label>
-            <input type="number" id="size" name="size" min="0" max="26" step="0.5">
+            <input type="number" id="size" name="size" th:field="*{size}" min="0" max="26" step="0.5">
           </div>
 
           <div class="boot-form-entry">
             <label for="quantity">Quantity</label>
-            <input type="number" id="quantity" name="quantity" min="0" step="1">
+            <input type="number" id="quantity" name="quantity" th:field="*{quantity}" min="0" step="1">
           </div>
 
-          <button type="button" id="searchBootSubmit" onclick="searchBoots(renderBootsListCallback(document.getElementById('bootsSearchResultsTableBody')));">Search</button>
+          <button type="submit" id="addNewBootSubmit">Add</button>
+        </form>
+      </div>
+      <hr/>
+      <div class="boots-form-container">
+        <h2>Search Boots</h2>
+        <form id="searchBoots" class="boots-form" action="#" th:action="@{/boots/search}" th:object="${newBoot}" method="get">
+          <div class="boot-form-entry">
+            <label for="material">Material</label>
+            <input type="text" id="material" name="material" th:field="*{material}">
+          </div>
+
+          <div class="boot-form-entry">
+            <label for="type">Type</label>
+            <select th:field="*{type}" class="boot-types-dropdown" name="type" id="bootTypesDropdown" form="searchBoots">
+                <option value="">ANY</option>
+                <option th:each="p : ${listType}" th:value="${p}" th:text="${p}" />
+            </select>
+          </div>
+
+          <div class="boot-form-entry">
+            <label for="size">Size</label>
+            <input type="number" id="size" name="size" th:field="*{size}" min="0" max="26" step="0.5">
+          </div>
+
+          <div class="boot-form-entry">
+            <label for="quantity">Quantity</label>
+            <input type="number" id="quantity" name="quantity" th:field="*{quantity}" min="0" step="1">
+          </div>
+
+          <button type="submit" id="searchBootSubmit">Search</button>
         </form>
         <hr />
         <div id="searchBootResults">

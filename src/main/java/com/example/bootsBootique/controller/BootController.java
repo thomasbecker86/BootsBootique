@@ -16,11 +16,13 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Arrays;
 import java.util.Optional;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 
-import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -28,7 +30,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 
 
-@RestController
+@Controller
 @RequestMapping("/boots")
 public class BootController {
 
@@ -39,8 +41,13 @@ public class BootController {
     }
   
     @GetMapping("/")
-    public Iterable<Boot> getAllBoots() {
-        return this.bootRepository.findAll();
+    public String getAllBoots(Model model) {
+        Iterable<Boot> boots = this.bootRepository.findAll();
+        model.addAttribute("boots", boots);
+        model.addAttribute("listType", BootType.values());
+        Boot emptyBoot = new Boot();
+        model.addAttribute("newBoot", emptyBoot);
+        return "index";
     }
 
     @GetMapping("/types")
@@ -48,10 +55,17 @@ public class BootController {
 	return Arrays.asList(BootType.values());
     }
 
-    @PostMapping("/")
-    public Boot addBoot(@RequestBody Boot boot) {
-        Boot newBoot = this.bootRepository.save(boot);
-        return newBoot;
+    @PostMapping("/add")
+    public String addBoot(Model model, @ModelAttribute("newBoot") Boot newBoot) {
+        this.bootRepository.save(newBoot);
+        System.out.println(newBoot);
+        
+        Iterable<Boot> boots = this.bootRepository.findAll();
+        model.addAttribute("boots", boots);
+        model.addAttribute("listType", BootType.values());
+        Boot emptyBoot = new Boot();
+        model.addAttribute("newBoot", emptyBoot);
+        return "index";
     }
 
     @DeleteMapping("/{id}")
@@ -138,4 +152,9 @@ public class BootController {
 	}
     }
 
+    /*
+    private Iterable<Boot> getAllBoots() {
+        return this.bootRepository.findAll();
+    }
+    */
 }
