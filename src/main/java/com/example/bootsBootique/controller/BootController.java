@@ -81,6 +81,7 @@ public class BootController {
 
     @PutMapping("/{id}/quantity/increment")
     public Boot incrementQuantity(@PathVariable("id") Integer id) {
+        System.out.println("Testing");
         Optional<Boot> bootToIncrementOptional = this.bootRepository.findById(id);
         if (!bootToIncrementOptional.isPresent()) {
             return null;
@@ -102,8 +103,16 @@ public class BootController {
     }
 
     @GetMapping("/search")
-    public List<Boot> searchBoots(@RequestParam(required = false) String material, @RequestParam(required = false) BootType type, @RequestParam(required = false) Float size, @RequestParam(required = false, name = "quantity") Integer minQuantity) throws QueryNotSupportedException {
-	if (Objects.nonNull(material)) {
+    public List<Boot> searchBoots(Model model, @RequestParam(required = false) String material, @RequestParam(required = false) BootType type, @RequestParam(required = false) Float size, @RequestParam(required = false, name = "quantity") Integer minQuantity) throws QueryNotSupportedException {
+	/*
+        List<Boot> bootList = this.bootRepository.findByMaterial(material);
+        model.addAttribute("boots", bootList);
+        model.addAttribute("listType", BootType.values());
+        Boot emptyBoot = new Boot();
+        model.addAttribute("newBoot", emptyBoot);
+        return "index";
+        */
+        if (Objects.nonNull(material)) {
             if (Objects.nonNull(type) && Objects.nonNull(size) && Objects.nonNull(minQuantity)) {
 				// call the repository method that accepts a material, type, size, and minimum
 				// quantity
@@ -150,6 +159,7 @@ public class BootController {
 	} else {
             throw new QueryNotSupportedException("This query is not supported! Try a different combination of search parameters.");
 	}
+        
     }
 
     /*

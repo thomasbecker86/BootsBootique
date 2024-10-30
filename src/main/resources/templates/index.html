@@ -40,6 +40,11 @@
                 <td th:text="${boot.material}"/>
                 <td th:text="${boot.size}"/>
                 <td th:text="${boot.quantity}"/>
+                <td>
+                    <a href="@{/boots/${boot.id}/quantity/increment}">Incr</a>
+                    <span class="decrement-boot-icon">&#9207;</span>
+                    <span class="delete-boot-icon">&#11199;</span>
+                </td>
               </tr>
           </tbody>
         </table>
@@ -55,6 +60,7 @@
         <span class="delete-boot-icon" onclick="deleteBootById(${boot.id}, renderBootsListCallback(document.getElementById('bootsTableBody')));">❌</span>
         <span class="increment-boot-icon" onclick="changeBootQuantity(${boot.id}, 'increment', renderBootsListCallback(document.getElementById('bootsTableBody')));">⬆️</span>
         <span class="decrement-boot-icon" onclick="changeBootQuantity(${boot.id}, 'decrement', renderBootsListCallback(document.getElementById('bootsTableBody')));">⬇️</span>
+        <span>&#11014; &#9206; &#8593; &#11105; &#11197; &#11199;</span>
       </td>
       -->
       <div class="boots-form-container">
