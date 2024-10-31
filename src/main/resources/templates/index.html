@@ -68,7 +68,7 @@
         <form id="addNewBoot" class="boots-form" action="#" th:action="@{/boots/add}" th:object="${newBoot}" method="post">
           <div class="boot-form-entry">
             <label for="material">Material</label>
-            <input type="text" id="material" name="material" th:field="*{material}">
+            <input type="text" id="material" name="material" th:field="*{material}" required maxlength="20">
           </div>
 
           <div class="boot-form-entry">
@@ -80,12 +80,12 @@
 
           <div class="boot-form-entry">
             <label for="size">Size</label>
-            <input type="number" id="size" name="size" th:field="*{size}" min="0" max="26" step="0.5">
+            <input type="number" id="size" name="size" th:field="*{size}" min="4" max="14" step="0.5" required>
           </div>
 
           <div class="boot-form-entry">
             <label for="quantity">Quantity</label>
-            <input type="number" id="quantity" name="quantity" th:field="*{quantity}" min="0" step="1">
+            <input type="number" id="quantity" name="quantity" th:field="*{quantity}" min="1" step="1" required>
           </div>
 
           <button type="submit" id="addNewBootSubmit">Add</button>
@@ -94,7 +94,7 @@
       <hr/>
       <div class="boots-form-container">
         <h2>Search Boots</h2>
-        <form id="searchBoots" class="boots-form" action="#" th:action="@{/boots/search}" th:object="${newBoot}" method="get">
+        <form id="searchBoots" class="boots-form" action="#" th:action="@{/boots/search}" th:object="${searchBoot}" method="get">
           <div class="boot-form-entry">
             <label for="material">Material</label>
             <input type="text" id="material" name="material" th:field="*{material}">
@@ -111,11 +111,6 @@
           <div class="boot-form-entry">
             <label for="size">Size</label>
             <input type="number" id="size" name="size" th:field="*{size}" min="0" max="26" step="0.5">
-          </div>
-
-          <div class="boot-form-entry">
-            <label for="quantity">Quantity</label>
-            <input type="number" id="quantity" name="quantity" th:field="*{quantity}" min="0" step="1">
           </div>
 
           <button type="submit" id="searchBootSubmit">Search</button>

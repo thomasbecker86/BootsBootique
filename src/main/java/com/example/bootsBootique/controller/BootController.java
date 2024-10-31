@@ -12,10 +12,12 @@ import com.example.bootsBootique.exceptions.QueryNotSupportedException;
 import com.example.bootsBootique.enums.BootType;
 import com.example.bootsBootique.model.Boot;
 import com.example.bootsBootique.repository.BootRepository;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.Arrays;
 import java.util.Optional;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 
@@ -47,14 +49,15 @@ public class BootController {
         model.addAttribute("listType", BootType.values());
         Boot emptyBoot = new Boot();
         model.addAttribute("newBoot", emptyBoot);
+        model.addAttribute("searchBoot", emptyBoot);
         return "index";
     }
-
+    /*
     @GetMapping("/types")
     public List<BootType> getBootTypes() {
 	return Arrays.asList(BootType.values());
     }
-
+    */
     @PostMapping("/add")
     public String addBoot(Model model, @ModelAttribute("newBoot") Boot newBoot) {
         this.bootRepository.save(newBoot);
@@ -65,9 +68,10 @@ public class BootController {
         model.addAttribute("listType", BootType.values());
         Boot emptyBoot = new Boot();
         model.addAttribute("newBoot", emptyBoot);
+        model.addAttribute("searchBoot", emptyBoot);
         return "index";
     }
-
+    /*
     @DeleteMapping("/{id}")
     public Boot deleteBoot(@PathVariable("id") Integer id) {
         Optional<Boot> bootToDeleteOptional = this.bootRepository.findById(id);
@@ -78,7 +82,7 @@ public class BootController {
         this.bootRepository.delete(bootToDelete);
         return bootToDelete;
     }
-
+    
     @PutMapping("/{id}/quantity/increment")
     public Boot incrementQuantity(@PathVariable("id") Integer id) {
         System.out.println("Testing");
@@ -101,7 +105,50 @@ public class BootController {
         bootToDecrement.setQuantity(bootToDecrement.getQuantity() - 1);
         return this.bootRepository.save(bootToDecrement);
     }
-
+    */
+    
+    @GetMapping("/search")
+    public String searchBoots(Model model, @ModelAttribute("searchBoot") Boot searchBoot) throws QueryNotSupportedException {
+        System.out.println(searchBoot.toString());
+        System.out.println(searchBoot.getType() == null);
+        System.out.println(Objects.isNull(searchBoot.getMaterial()));
+        System.out.println(searchBoot.getMaterial() == null);
+        System.out.println(searchBoot.getMaterial().equals(""));
+        
+        //Iterable<Boot> boots = this.bootRepository.findByMaterial("leather");
+        Iterable<Boot> boots = new ArrayList<>();
+        String material = searchBoot.getMaterial();
+        Float size = searchBoot.getSize();
+        BootType type = searchBoot.getType();
+        
+        if (!(searchBoot.getMaterial() == null || searchBoot.getMaterial().equals(""))) { 
+            if (searchBoot.getType() != null && searchBoot.getSize() != null) {
+                boots = this.bootRepository.findByMaterialAndSizeAndType(material, size, type);
+            } else if (searchBoot.getType() != null) {
+                boots = this.bootRepository.findByMaterialAndType(material, type);
+            } else if (searchBoot.getSize()!= null) {
+                boots = this.bootRepository.findByMaterialAndSize(material, size);
+            } else {
+                boots = this.bootRepository.findByMaterial(material);
+            }
+        } else if(type != null) {
+            if (size != null) {
+                boots = this.bootRepository.findByTypeAndSize(type, size);
+            } else {
+                boots = this.bootRepository.findByType(type);
+            }
+        } else if(size != null) {
+            boots = this.bootRepository.findBySize(size);            
+        } else {
+            throw new QueryNotSupportedException("Something went wrong with your search :/(.");
+        }
+        model.addAttribute("boots", boots);
+        model.addAttribute("listType", BootType.values());
+        Boot emptyBoot = new Boot();
+        model.addAttribute("newBoot", emptyBoot);
+        return "index";
+    }
+    /*
     @GetMapping("/search")
     public List<Boot> searchBoots(Model model, @RequestParam(required = false) String material, @RequestParam(required = false) BootType type, @RequestParam(required = false) Float size, @RequestParam(required = false, name = "quantity") Integer minQuantity) throws QueryNotSupportedException {
 	/*
@@ -111,7 +158,7 @@ public class BootController {
         Boot emptyBoot = new Boot();
         model.addAttribute("newBoot", emptyBoot);
         return "index";
-        */
+        
         if (Objects.nonNull(material)) {
             if (Objects.nonNull(type) && Objects.nonNull(size) && Objects.nonNull(minQuantity)) {
 				// call the repository method that accepts a material, type, size, and minimum
@@ -161,7 +208,7 @@ public class BootController {
 	}
         
     }
-
+    */
     /*
     private Iterable<Boot> getAllBoots() {
         return this.bootRepository.findAll();
