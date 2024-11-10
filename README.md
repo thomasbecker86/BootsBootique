@@ -12,7 +12,8 @@ One-page web application that simulates a rudimentary web store. The boots are s
 ### Features:
 The user sees a predefined quantity of boots. Each boot is defined by 'type', 'material', 'size' and 'quantity'.
 Each existing boot can be deleted or the stock can be reduced or increased using a button next to the entry.
-Specific boots can be searched for by any combination of the search parameters 'material', 'type' and 'size'.
+New boots can be added using a form.
+The user can search for specific boots using any combination of the search parameters 'material', 'type' and 'size'.
 
 ### Technologys used:
 + Spring Initializr
