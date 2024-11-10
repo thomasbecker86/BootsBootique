@@ -15,9 +15,12 @@ import jakarta.persistence.Enumerated;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Id;
 import jakarta.persistence.GeneratedValue;
-
 import com.example.bootsBootique.enums.BootType;
 import jakarta.persistence.GenerationType;
+import jakarta.validation.constraints.Max;
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Pattern;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
@@ -37,14 +40,19 @@ public class Boot {
 
   @Column(name = "TYPE")
   @Enumerated(EnumType.STRING)
+  @NotNull
   private BootType type;
 
   @Column(name = "SIZE")
+  @NotNull
   private Float size;
 
   @Column(name = "QUANTITY")
+  @Min(1)
+  @Max(999)
   private Integer quantity;
 
   @Column(name = "MATERIAL")
+  @Pattern(regexp = "[A-Z a-z]{1,20}")
   private String material;
 }
