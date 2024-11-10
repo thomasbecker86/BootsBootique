@@ -9,7 +9,7 @@ One-page web application that simulates a rudimentary web store. The boots are s
 #### Project Link:
 [Boots Bootique on Codecademy.com](https://www.codecademy.com/paths/create-rest-apis-with-spring-and-java/tracks/spring-apis-data-with-jpa/modules/spring-data-and-jpa/projects/spring-data-jpa-the-boots-bootique)
 
-###Features:
+### Features:
 The user sees a predefined quantity of boots. Each boot is defined by 'type', 'material', 'size' and 'quantity'.
 Each existing boot can be deleted or the stock can be reduced or increased using a button next to the entry.
 Specific boots can be searched for by any combination of the search parameters 'material', 'type' and 'size'.
