@@ -24,3 +24,6 @@ The user can search for specific boots using any combination of the search param
 + Thymeleaf
 
 ### Potential Improvements:
++ Adding a function to sort the displayed boots (by type, material, size and quantity).
++ Adding different roles (e.g. customer and store owner).
++ Adding actions that only the store owner can perform, e.g. edit boot properties.
