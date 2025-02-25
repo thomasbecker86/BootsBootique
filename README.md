@@ -15,7 +15,7 @@ Each existing boot can be deleted or the stock can be reduced or increased using
 New boots can be added using a form.
 The user can search for specific boots using any combination of the search parameters 'material', 'type' and 'size'.
 
-### Technologys used:
+### Technologies used:
 + Spring Initializr
 + Spring Data JPA
 + H2 Database
